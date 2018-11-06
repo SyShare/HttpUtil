@@ -1,0 +1,52 @@
+apply plugin: 'com.android.library'
+apply from: '../maven_push.gradle'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion depends.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion depends.minSdkVersion
+        targetSdkVersion depends.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+    }
+
+    resourcePrefix "http_"
+
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'com.youloft.maven:lib-utils:1.0.3'
+
+    compileOnly depends.appcompat_v7()
+    api depends.retrofit()
+    api depends.retrofit_gson()
+    api depends.retrofit_rxjava_adapter()
+    api depends.rxjava2()
+    api depends.commons_io()
+    api depends.rxjava2()
+    api depends.rxandroid2()
+    api depends.okhttp()
+    api depends.okhttp_log()
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+
+    //Lifecycles
+    api "android.arch.lifecycle:runtime:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+    api "android.arch.lifecycle:common-java8:1.1.1"
+    //LiveData  ViewModel
+    api "android.arch.lifecycle:extensions:1.1.1"
+    testImplementation "android.arch.core:core-testing:1.1.1"
+    api "android.arch.lifecycle:reactivestreams:1.1.1"
+}
