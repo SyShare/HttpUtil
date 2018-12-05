@@ -1,14 +1,15 @@
 package com.youlu.http;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.gson.JsonParseException;
 import com.youlu.http.util.ApiCodeUtil;
-import com.youlu.http.util.HttpConstKt;
 import com.youlu.util.ToastUtil;
 
+import java.lang.ref.SoftReference;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -18,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.functions.Consumer;
 import io.reactivex.plugins.RxJavaPlugins;
+import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -25,10 +27,14 @@ import retrofit2.HttpException;
 
 public class OkHttpWrapper {
 
+    /**
+     * 上下文
+     */
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
     private Builder mBuilder;
 
-    public OkHttpWrapper(Builder builder) {
+    OkHttpWrapper(Builder builder) {
         mBuilder = builder;
     }
 
@@ -125,6 +131,11 @@ public class OkHttpWrapper {
             return this;
         }
 
+        public Builder addNormalInterceptor(Interceptor interceptor) {
+            clientBuilder.addInterceptor(interceptor);
+            return this;
+        }
+
         public Builder setConnectTimeOut(long connectTimeOut) {
             clientBuilder.connectTimeout(connectTimeOut, TimeUnit.MILLISECONDS);
             return this;
@@ -135,8 +146,18 @@ public class OkHttpWrapper {
             return this;
         }
 
+        public Builder cacheSize(Cache cache) {
+            clientBuilder.cache(cache);
+            return this;
+        }
+
         public Builder setSuccessCode(int code) {
             ApiCodeUtil.INSTANCE.setSUCCESS_CODE(code);
+            return this;
+        }
+
+        public Builder enableCache(boolean openCache) {
+            ApiCodeUtil.INSTANCE.setEnableCache(openCache);
             return this;
         }
 

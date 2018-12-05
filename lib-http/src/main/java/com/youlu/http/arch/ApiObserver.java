@@ -10,6 +10,7 @@ import android.util.Log;
 import com.youlu.http.ApiException;
 import com.youlu.http.OkHttpWrapper;
 import com.youlu.http.bean.BaseResponse;
+import com.youlu.http.util.ApiCodeUtil;
 import com.youlu.util.NetUtil;
 import com.youlu.util.constans.AbAppData;
 
@@ -69,7 +70,8 @@ public abstract class ApiObserver<T> extends DisposableObserver<T> implements Li
 
     @Override
     public void onStart() {
-        if (!NetUtil.isNetworkAvailable(OkHttpWrapper.getContext())) {
+        if (!NetUtil.isNetworkAvailable(OkHttpWrapper.getContext())
+                && !ApiCodeUtil.INSTANCE.getEnableCache()) {
             dispose();
             onError(new NetworkErrorException());
         }
@@ -78,7 +80,7 @@ public abstract class ApiObserver<T> extends DisposableObserver<T> implements Li
         }
     }
 
-    void addDisposable() {
+    private void addDisposable() {
         if (disposables == null) {
             disposables = new CompositeDisposable();
         }

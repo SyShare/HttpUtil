@@ -41,6 +41,7 @@ dependencies {
     implementation depends.constraintLayout()
 
     implementation project(':lib-http')
+    implementation depends.eventbus()
 
 
 
@@ -48,5 +49,6 @@ dependencies {
 
 //    implementation 'com.youloft.maven:lib-http:1.0.1'
     implementation 'com.youloft.maven:lib-permission:1.0.1'
+    implementation 'com.youloft.maven:lib-logger:1.0.2'
 }
 

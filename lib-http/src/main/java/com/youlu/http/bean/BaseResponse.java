@@ -1,6 +1,5 @@
 package com.youlu.http.bean;
 
-import com.google.gson.annotations.SerializedName;
 import com.youlu.http.util.ApiCodeUtil;
 
 /**
@@ -9,11 +8,8 @@ import com.youlu.http.util.ApiCodeUtil;
  */
 public class BaseResponse<T> {
 
-    @SerializedName("Code")
     private int code;
-    @SerializedName("Message")
     private String msg;
-    @SerializedName("Data")
     private T data;
 
     public int getCode() {
